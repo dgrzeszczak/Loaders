@@ -56,15 +56,35 @@ extension Reusable where View: UICollectionViewCell {
     }
 }
 
-extension Reusable where View: UICollectionReusableView {
+public enum ReusableCollectionViewKind: RawRepresentable {
 
-    public func register(on collectionView: UICollectionView, forSupplementaryViewOfKind kind: String) {
-        collectionView.register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: reuseIdentifier)
+    case header, footer
+
+    public init?(rawValue: String) {
+        switch rawValue {
+        case UICollectionView.elementKindSectionHeader: self = .header
+        case UICollectionView.elementKindSectionFooter: self = .footer
+        default: return nil
+        }
     }
 
-    public func dequeue(on collectionView: UICollectionView, kind: String, for indexPath: IndexPath) -> View {
+    public var rawValue: String {
+        switch self {
+        case .header: return UICollectionView.elementKindSectionHeader
+        case .footer: return UICollectionView.elementKindSectionFooter
+        }
+    }
+}
 
-        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+extension Reusable where View: UICollectionReusableView {
+
+    public func register(on collectionView: UICollectionView, forSupplementaryViewOfKind kind: ReusableCollectionViewKind) {
+        collectionView.register(nib, forSupplementaryViewOfKind: kind.rawValue, withReuseIdentifier: reuseIdentifier)
+    }
+
+    public func dequeue(on collectionView: UICollectionView, kind: ReusableCollectionViewKind, for indexPath: IndexPath) -> View {
+
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind.rawValue,
                                                                          withReuseIdentifier: reuseIdentifier,
                                                                          for: indexPath) as? View else {
 

@@ -9,88 +9,116 @@
 import XCTest
 @testable import Loaders
 
-//FAKE TESTS !
+enum Storyboards {
+    enum FirstSingle: Storyboard, HasInitialController { }
 
-enum RegistrationCells: Nib {
-
-    static var testCell: Reusable<TestCell> { return load() }
-}
-
-enum WalksStoryboards { // in module(?) all typed controllers
-
-    enum Explore: Storyboard, HasInitialController {
-        typealias InitialControllerType = ExploreViewController // optional - if not declared it will be just UIViewController
-
-        static var homeViewController: LiveWalkViewController { return load() } // may be plain UIViewController
-        static func ticketsViewController() -> CoachHomeViewController { return load() } // may be plain UIViewController
+    enum SecondSingle: Storyboard, HasInitialController {
+        typealias InitialControllerType = SecondSingleViewController
     }
 
-    enum BookWalk: Storyboard, HasInitialController { typealias InitialControllerType = BookWalkViewController }
-    enum MyWalksCoach: Storyboard, HasInitialController { typealias InitialControllerType = MyWalksCoachViewController }
-
-    enum InternalStoryboard:  Storyboard, HasInitialController { //?
-        case detailsViewController, exploreViewController
+    enum FirstMultiple: Storyboard {
+        static var firstMultipleViewController1: FirstMultipleViewController1 { return load() }
+        static var firstMultipleViewController2: FirstMultipleViewController2 { return load() }
+        static var firstMultipleViewController3: FirstMultipleViewController3 { return load() }
     }
-}
 
-public enum AppStoryboards { // eg. UICommon module - we only needs UIViewControllers in ReMVVM not typed controlers
-
-    public enum WalkUI { // module
-
-        public enum Explore: String, Storyboard {
-            case detailsViewController, exploreViewController, initialViewController
-            //identifiers in storyBoard - 'DetailsViewController' or 'detailsViewController',
-            //'ExploreViewController' or 'exploreViewController'
-            // initialViewController is storyboard's initial view controller or with identifier 'initialViewController'
-
+    enum WithFunctionsExample {
+        enum FirstMultiple: Storyboard {
+            static func firstMultipleViewController1() -> FirstMultipleViewController1 { return load() }
+            static func firstMultipleViewController2() -> FirstMultipleViewController2 { return load() }
+            static func firstMultipleViewController3() -> FirstMultipleViewController3 { return load() }
         }
     }
+
+    enum SecondMultiple: String, Storyboard {
+        case secondMultipleViewController1
+        case secondMultipleViewController2
+        case secondMultipleViewController3
+    }
+
+    enum LoadersTestsModule {
+        enum InModule: Storyboard, HasInitialController { }
+    }
 }
 
-// Unit Tests for checking every controller
-extension AppStoryboards.WalkUI.Explore: CaseIterable { } // in Unit Tests
+extension Storyboards.SecondMultiple: CaseIterable { } //for tests only
 
-public func testLoad() {
+enum CollectionViewCells: Nibs {
 
-    RegistrationCells.testCell.register(on: UITableView())
-    _ = AppStoryboards.WalkUI.Explore.allCases.map { $0.load() } // check if all iterable controllers are loading properly
-
-    let _: ConfirmDetailsViewController = AppStoryboards.WalkUI.Explore.detailsViewController.load() // type checking ?
-
-    _ = WalksStoryboards.Explore.initialViewController()
-    _ = WalksStoryboards.Explore.homeViewController
-    _ = WalksStoryboards.Explore.ticketsViewController()
+    static var firstCollectionViewCell: Reusable<FirstCollectionViewCell> { return load() }
+    static var secondCollectionViewCell: Reusable<SecondCollectionViewCell> { return load() }
+    static var collectionReusableView: Reusable<CollectionReusableView> { return load() }
 }
 
-class TestCell: UITableViewCell { }
-class ExploreViewController: UIViewController { }
-class LiveWalkViewController: UIViewController { }
-class CoachHomeViewController: UIViewController { }
-class BookWalkViewController: UIViewController { }
-class MyWalksCoachViewController: UIViewController { }
-class InternalStoryboard: UIViewController { }
-class ConfirmDetailsViewController: UIViewController { }
+enum TableViewCells: Nibs {
+
+    static var firstTableViewCell: Reusable<FirstTableViewCell> { return load() }
+    static var secondTableViewCell: Reusable<SecondTableViewCell> { return load() }
+}
 
 class LoadersTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testTableView() {
+
+        let tableView = UITableView()
+
+        TableViewCells.firstTableViewCell.register(on: tableView)
+        TableViewCells.secondTableViewCell.register(on: tableView)
+
+        let indexPath = IndexPath(row: 0, section: 0)
+        _ = TableViewCells.firstTableViewCell.dequeue(on: tableView, for: indexPath)
+        _ = TableViewCells.secondTableViewCell.dequeue(on: tableView, for: indexPath)
+
+        //or just
+        _ = TableViewCells.firstTableViewCell.instantiate()
+        _ = TableViewCells.secondTableViewCell.instantiate()
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testCollectionView() {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
+        CollectionViewCells.firstCollectionViewCell.register(on: collectionView)
+        CollectionViewCells.secondCollectionViewCell.register(on: collectionView)
+        CollectionViewCells.collectionReusableView.register(on: collectionView, forSupplementaryViewOfKind: .header)
+
+        let indexPath = IndexPath(item: 0, section: 0)
+        _ = CollectionViewCells.firstCollectionViewCell.dequeue(on: collectionView, for: indexPath)
+        _ = CollectionViewCells.secondCollectionViewCell.dequeue(on: collectionView, for: indexPath)
+        _ = CollectionViewCells.collectionReusableView.dequeue(on: collectionView, kind: .header, for: indexPath)
+
+        //or just
+        _ = CollectionViewCells.firstCollectionViewCell.instantiate()
+        _ = CollectionViewCells.secondCollectionViewCell.instantiate()
+        _ = CollectionViewCells.collectionReusableView.instantiate()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testDesignable() {
+        let view = DesignableView(frame: .zero)
+        view.title = "new title"
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+    func testStoryboards() {
+        _ = Storyboards.FirstSingle.initialViewController() // UIViewController
+        _ = Storyboards.SecondSingle.initialViewController() // SecondSingleViewController
 
+        _ = Storyboards.FirstMultiple.firstMultipleViewController1 // FirstMultipleViewController1
+        _ = Storyboards.FirstMultiple.firstMultipleViewController2 // FirstMultipleViewController2
+        _ = Storyboards.FirstMultiple.firstMultipleViewController3 // FirstMultipleViewController3
+
+        _ = Storyboards.WithFunctionsExample.FirstMultiple.firstMultipleViewController1() // FirstMultipleViewController1
+        _ = Storyboards.WithFunctionsExample.FirstMultiple.firstMultipleViewController2() // FirstMultipleViewController2
+        _ = Storyboards.WithFunctionsExample.FirstMultiple.firstMultipleViewController3() // FirstMultipleViewController3
+
+        _ = Storyboards.SecondMultiple.secondMultipleViewController1.load() // UIViewController
+        _ = Storyboards.SecondMultiple.secondMultipleViewController2.load() // UIViewController
+        _ = Storyboards.SecondMultiple.secondMultipleViewController3.load() // UIViewController
+
+        let _: SecondMultipleViewController1 = Storyboards.SecondMultiple.secondMultipleViewController1.load()
+        let _: SecondMultipleViewController2 = Storyboards.SecondMultiple.secondMultipleViewController2.load()
+        let _: SecondMultipleViewController3 = Storyboards.SecondMultiple.secondMultipleViewController3.load()
+
+        _ = Storyboards.SecondMultiple.allCases.map { $0.load() } //[UIViewControllers]
+
+        _ = Storyboards.LoadersTestsModule.InModule.initialViewController() // UIViewController
+    }
 }
