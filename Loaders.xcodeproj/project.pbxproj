@@ -129,6 +129,8 @@
 		081A1803221D40AE003707D9 /* LoadersTestsModule */ = {
 			isa = PBXGroup;
 			children = (
+				081A180A221D4112003707D9 /* InModule.storyboard */,
+				081A180B221D4113003707D9 /* InModuleViewController.swift */,
 				081A1804221D40AE003707D9 /* LoadersTestsModule.h */,
 				081A1805221D40AE003707D9 /* Info.plist */,
 			);
@@ -176,7 +178,6 @@
 		088F7851221BE5E20095CBC6 /* LoadersTests */ = {
 			isa = PBXGroup;
 			children = (
-				088F7875221C76480095CBC6 /* Module */,
 				088F786F221C75D10095CBC6 /* Nib */,
 				088F786E221C75950095CBC6 /* Storyboard */,
 				088F7852221BE5E20095CBC6 /* LoadersTests.swift */,
@@ -254,15 +255,6 @@
 				088F7885221C77420095CBC6 /* SecondCollectionViewCell.xib */,
 			);
 			path = CollectionVIew;
-			sourceTree = "<group>";
-		};
-		088F7875221C76480095CBC6 /* Module */ = {
-			isa = PBXGroup;
-			children = (
-				081A180A221D4112003707D9 /* InModule.storyboard */,
-				081A180B221D4113003707D9 /* InModuleViewController.swift */,
-			);
-			path = Module;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

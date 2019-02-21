@@ -31,6 +31,7 @@ enum Storyboards {
     }
 
     enum SecondMultiple: String, Storyboard {
+        case initialViewController
         case secondMultipleViewController1
         case secondMultipleViewController2
         case secondMultipleViewController3
