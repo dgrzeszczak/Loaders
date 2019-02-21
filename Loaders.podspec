@@ -1,4 +1,4 @@
-Pod::Spec.new do |s|
+﻿Pod::Spec.new do |s|
   s.name = 'Loaders'
   s.version = '1.0.0'
   s.license = 'MIT'
@@ -12,6 +12,12 @@ Loaders is a simple way to define all your storyboard's UIViewControllers and NI
   s.source = { :git => 'https://github.com/dgrzeszczak/Loaders.git', :tag => s.version }
 
   s.ios.deployment_target = '9.3'
+
+ s.swift_version = '4.2'
+
+  s.pod_target_xcconfig = {
+    'SWIFT_VERSION' => '4.2',
+  }
 
   s.source_files = 'Loaders/Sources/**/*.swift'
 end
