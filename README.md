@@ -178,3 +178,7 @@ class DesignableView: UIView {
     }
 }
 ```
+
+# Summary 
+
+Loaders is a simple way to define all your storyboard's UIViewControllers and NIB reusables (UITableViewCell, UICollectionViewCell, UICollectionReusableView) in clean, declarative way. It brings autocomplete and compile time checking for storyboards and xib files.
