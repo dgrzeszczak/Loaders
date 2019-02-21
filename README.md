@@ -133,7 +133,7 @@ Note: It works exaclty the same for UICollectionView.
 If you have storyboards or reusables in different module of your app you can simply enclose declaration in enum with the same name as module. You can still enclose your declaration by any enum for grouping purposes but please remember to not conflict it with any module in your app. 
 
 ```swift
-enum Storyboards { // there is no modulel 'Storyboards' in the app so it will use 'current' module for Main storyboard
+enum Storyboards { // there is no module 'Storyboards' in the app so it will use 'current' module for Main storyboard
     
     enum Main: String, Storyboard {
         case initialViewController, pageViewController, pageDetailsViewController
@@ -142,7 +142,7 @@ enum Storyboards { // there is no modulel 'Storyboards' in the app so it will us
     enum User { // there is module User in the app it will load storyboards 'Main' and 'Profile' from there
         
         enum Main: String, Storyboard {
-            case initialViewController, pageViewController, pageDetailsViewController
+            case initialViewController, userViewController, userDetailsViewController
         }
         
         enum Profile: Storyboard, HasInitialController { }
