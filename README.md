@@ -1,5 +1,8 @@
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Version](https://img.shields.io/cocoapods/v/Loaders.svg?style=flat)](http://cocoapods.org/pods/Loaders)
+[![License](https://img.shields.io/cocoapods/l/Loaders.svg?style=flat)](http://cocoapods.org/pods/Loaders)
+[![Platform](https://img.shields.io/cocoapods/p/Loaders.svg?style=flat)](http://cocoapods.org/pods/Loaders)
 
 Simple μFramework for loading Storyboard and Xib files for iOS.
 
