@@ -13,11 +13,12 @@ Loaders is a simple way to define all your storyboard's UIViewControllers and NI
 
   s.ios.deployment_target = '9.3'
 
- s.swift_version = '4.2'
+  s.swift_version = '4.2'
 
   s.pod_target_xcconfig = {
     'SWIFT_VERSION' => '4.2',
   }
 
+  s.requires_arc = true
   s.source_files = 'Loaders/Sources/**/*.swift'
 end
