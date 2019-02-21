@@ -152,7 +152,7 @@ enum Storyboards { // there is no module 'Storyboards' in the app so it will use
 
 # Custom view from Nib
 
-Creating custom view using xib files instead writing them by hand in code is great idea. It simple but need some boilerplate and usually it is not obvious for beginers how to do it in proper way. Each developer who is using your custom view should have possibility to instantiate that view in storyboards but he also should be able to do it from the code. He also should see the custom view in storyboard properly instead of "white rectangles". *Loaders* provide simple mechanism for loading xib files to custom views corectly.
+Creating custom view using xib files instead writing them by hand in code is great idea. It is simple but need some boilerplate and usually it is not obvious for beginers how to do it in proper way. Each developer who is using your custom view should have possibility to instantiate that view in storyboards but he also should be able to do it from the code. He also should see the custom view in storyboard properly instead of "white rectangles". *Loaders* provide simple mechanism for loading xib files to custom views corectly.
 
 To make custom designable view you need to create Xib file with the same name as your custom class and set the 'File Owner' with that class to have all IBOutlets initialized properly (remember - do not set 'Custom Class' for the main view - set 'File Owner' only). 
 
