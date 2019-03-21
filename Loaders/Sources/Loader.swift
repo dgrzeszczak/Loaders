@@ -2,54 +2,50 @@
 //  Loader.swift
 //  Loaders
 //
-//  Created by Dariusz Grzeszczak on 19/02/2019.
+//  Created by Dariusz Grzeszczak on 21/03/2019.
 //  Copyright © 2019 Dariusz Grzeszczak. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-public protocol Loader {
-    static var bundle: Bundle { get }
+public protocol ControllerLoader {
+    func load() -> UIViewController
 }
 
-extension Loader {
-    public static var bundle: Bundle {
+public struct Loader<Controller: UIViewController> {
 
-        let components = String(reflecting: self).split(separator: ".")
-        guard components.count > 1 else { return Bundle.main } // shouldn't happen
+    private let factory: () -> Controller
 
-        //first look on enclosing type
-        let enclosingName = components[components.count - 2]
-        if let enclosingBundle = allBundles.first(where: { $0.0 == enclosingName }) { return enclosingBundle.1 }
+    public init(factory: @escaping () -> Controller) {
+        self.factory = factory
+    }
 
-        guard components.count > 2 else { return Bundle.main }
-        let firstName = components[0]
-        if let firstBundle = allBundles.first(where: { $0.0 == firstName }) { return firstBundle.1 }
+    public init(identifier: String?, storyboardName: String, bundle: Bundle) {
+        factory = {
+            let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
 
-        return Bundle.main
+            guard let identifier = identifier else {
+                return storyboard.instantiateInitialViewController() as! Controller
+            }
+
+            return storyboard.instantiateViewController(withIdentifier: identifier)  as! Controller
+        }
+    }
+
+    public func load() -> Controller {
+        return factory()
+    }
+
+    public var any: ControllerLoader {
+        if let zelf = self as? Loader<UIViewController> { return zelf }
+        return Loader<UIViewController>(factory: factory)
     }
 }
 
-private let allBundles: [(String, Bundle)] = {
-    let appBundle = Bundle.allBundles
-        .compactMap { bundle -> (String, Bundle)? in
-            let lastPath = bundle.bundleURL.lastPathComponent
-            if lastPath.hasSuffix(".app") {
-                return (lastPath.replacingOccurrences(of: ".app", with: ""), bundle)
-            }
-            if lastPath.hasSuffix(".xctest") {
-                return (lastPath.replacingOccurrences(of: ".xctest", with: ""), bundle)
-            }
-            return nil
+extension ControllerLoader where Self: Storyboard, Self: RawRepresentable, Self.RawValue == String {
+    public func load() -> UIViewController {
+        return loader().load()
     }
+}
 
-    let frameworks = Bundle.allFrameworks
-        .map { bundle -> (String, Bundle) in
-            (bundle.bundleURL
-                .lastPathComponent
-                .replacingOccurrences(of: ".framework", with: "")
-                , bundle)
-    }
-
-    return appBundle + frameworks
-}()
+extension Loader: ControllerLoader where Controller == UIViewController { }

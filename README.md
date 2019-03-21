@@ -53,7 +53,7 @@ enum Details: Storyboard, HasInitialController { }
 Then you can instantiate controller like that: 
 
 ```swift
-_ = Details.initialViewController() // UIViewController
+_ = Details.instantiateInitialViewController() // UIViewController
 ```
 
 ### Strong types view controllers 
@@ -80,7 +80,7 @@ enum Main: Storyboard, HasInitialController {
 then load:
 
 ```swift
-_ = Main.initialViewController() // MainViewController 
+_ = Main.instantiateInitialViewController() // MainViewController 
 _ = Main.pageViewController // PageViewController
 _ = Main.pageDetailsViewController // PageDetailsViewController
 ```
@@ -98,9 +98,48 @@ enum Main: Storyboard, HasInitialController {
 then load: 
 
 ```swift
-_ = Main.initialViewController() // MainViewController 
+_ = Main.instantiateInitialViewController() // MainViewController 
 _ = Main.pageViewController() // PageViewController
 _ = Main.pageDetailsViewController() // PageDetailsViewController
+```
+
+### ControllerLoader & Loader<Controller: UIViewController>
+
+Sometimes there is a need to pass the factory that creates UIViewControllers and create UIViewController later instead of passing UIViewController instance. For that you can use ```Loader``` struct or just ```ConrollerLoader``` 
+
+```swift
+enum Main: Storyboard, HasInitialController {
+
+    static var pageViewController: Loader<PageViewController> { return loader() }
+    static var pageDetailsViewController: ControllerLoader { return loader() }
+    
+}
+
+_ = Main.initialViewController.load()
+_ = Main.pageViewController.load()
+_ = Main.pageDetailsViewController.load()
+```
+
+or 
+
+```swift
+enum Main: String, Storyboard {
+    case mainViewController
+}
+
+let loader = Main.mainViewController.loader()
+loader.load()
+```
+
+or
+
+```swift
+enum Main: String, Storyboard, ControllerLoader {
+    case mainViewController
+}
+
+let loader = Main.mainViewController
+loader.load()
 ```
  
 # Reusable Nibs

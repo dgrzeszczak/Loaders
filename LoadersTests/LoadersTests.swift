@@ -30,6 +30,22 @@ enum Storyboards {
         }
     }
 
+    enum WtihLoadersExample {
+        enum FirstMultiple: Storyboard {
+            static var firstMultipleViewController1: ControllerLoader { return loader() }
+            static var firstMultipleViewController2: ControllerLoader { return loader() }
+            static var firstMultipleViewController3: ControllerLoader { return loader() }
+        }
+    }
+
+    enum WtihTypedLoadersExample {
+        enum FirstMultiple: Storyboard {
+            static var firstMultipleViewController1: Loader<FirstMultipleViewController1> { return loader() }
+            static var firstMultipleViewController2: Loader<FirstMultipleViewController2> { return loader() }
+            static var firstMultipleViewController3: Loader<FirstMultipleViewController3> { return loader() }
+        }
+    }
+
     enum SecondMultiple: String, Storyboard {
         case initialViewController
         case secondMultipleViewController1
@@ -37,9 +53,20 @@ enum Storyboards {
         case secondMultipleViewController3
     }
 
+    enum WithControllerLoader {
+        enum SecondMultiple: String, Storyboard, ControllerLoader {
+            case initialViewController
+            case secondMultipleViewController1
+            case secondMultipleViewController2
+            case secondMultipleViewController3
+        }
+    }
+
     enum LoadersTestsModule {
         enum InModule: Storyboard, HasInitialController { }
     }
+
+
 }
 
 extension Storyboards.SecondMultiple: CaseIterable { } //for tests only
@@ -99,8 +126,8 @@ class LoadersTests: XCTestCase {
     }
 
     func testStoryboards() {
-        _ = Storyboards.FirstSingle.initialViewController() // UIViewController
-        _ = Storyboards.SecondSingle.initialViewController() // SecondSingleViewController
+        _ = Storyboards.FirstSingle.instantiateInitialViewController() // UIViewController
+        _ = Storyboards.SecondSingle.instantiateInitialViewController() // SecondSingleViewController
 
         _ = Storyboards.FirstMultiple.firstMultipleViewController1 // FirstMultipleViewController1
         _ = Storyboards.FirstMultiple.firstMultipleViewController2 // FirstMultipleViewController2
@@ -110,6 +137,14 @@ class LoadersTests: XCTestCase {
         _ = Storyboards.WithFunctionsExample.FirstMultiple.firstMultipleViewController2() // FirstMultipleViewController2
         _ = Storyboards.WithFunctionsExample.FirstMultiple.firstMultipleViewController3() // FirstMultipleViewController3
 
+        _ = Storyboards.WtihLoadersExample.FirstMultiple.firstMultipleViewController1.load() // UIViewController
+        _ = Storyboards.WtihLoadersExample.FirstMultiple.firstMultipleViewController2.load() // UIViewController
+        _ = Storyboards.WtihLoadersExample.FirstMultiple.firstMultipleViewController3.load() // UIViewController
+
+        _ = Storyboards.WtihTypedLoadersExample.FirstMultiple.firstMultipleViewController1.load() // FirstMultipleViewController1
+        _ = Storyboards.WtihTypedLoadersExample.FirstMultiple.firstMultipleViewController2.load() // FirstMultipleViewController2
+        _ = Storyboards.WtihTypedLoadersExample.FirstMultiple.firstMultipleViewController3.load() // FirstMultipleViewController3
+
         _ = Storyboards.SecondMultiple.secondMultipleViewController1.load() // UIViewController
         _ = Storyboards.SecondMultiple.secondMultipleViewController2.load() // UIViewController
         _ = Storyboards.SecondMultiple.secondMultipleViewController3.load() // UIViewController
@@ -118,8 +153,24 @@ class LoadersTests: XCTestCase {
         let _: SecondMultipleViewController2 = Storyboards.SecondMultiple.secondMultipleViewController2.load()
         let _: SecondMultipleViewController3 = Storyboards.SecondMultiple.secondMultipleViewController3.load()
 
+        let _: SecondMultipleViewController1 = Storyboards.SecondMultiple.secondMultipleViewController1.loader().load()
+        let _: SecondMultipleViewController2 = Storyboards.SecondMultiple.secondMultipleViewController2.loader().load()
+        let _: SecondMultipleViewController3 = Storyboards.SecondMultiple.secondMultipleViewController3.loader().load()
+
+        let arr: [ControllerLoader] = [Storyboards.WithControllerLoader.SecondMultiple.secondMultipleViewController1,
+                                       Storyboards.WithControllerLoader.SecondMultiple.secondMultipleViewController2,
+                                       Storyboards.WithControllerLoader.SecondMultiple.secondMultipleViewController3]
+
+        _ = arr.map { $0.load() }
+
         _ = Storyboards.SecondMultiple.allCases.map { $0.load() } //[UIViewControllers]
 
-        _ = Storyboards.LoadersTestsModule.InModule.initialViewController() // UIViewController
+        _ = Storyboards.LoadersTestsModule.InModule.instantiateInitialViewController() // UIViewController
+    }
+
+
+    func testOwe() {
+
+
     }
 }

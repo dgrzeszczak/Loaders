@@ -8,40 +8,32 @@
 
 import UIKit
 
-public protocol Storyboard: Loader { }
+public protocol Storyboard: BundleLoader { }
 
 public protocol HasInitialController {
     associatedtype InitialControllerType: UIViewController = UIViewController
-    static func initialViewController() -> InitialControllerType
+
+    static var initialViewController: Loader<InitialControllerType> { get }
+
+    static func instantiateInitialViewController() -> InitialControllerType
 }
 
 extension Storyboard {
 
-    public static func load<Controller: UIViewController>(_ identifier: String = #function) -> Controller {
-        return load(identifier) as! Controller
-    }
+    public static func loader<Controller: UIViewController>(_ identifier: String = #function) -> Loader<Controller> {
 
-    public static func load(_ identifier: String = #function) -> UIViewController {
         let identifier = identifier.replacingOccurrences(of: "()", with: "")
         let storyboardName = String(describing: self)
-        let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
 
-        var controller: UIViewController?
         if identifier == "initialViewController" {
-            controller = storyboard.instantiateInitialViewController()
+            return Loader<Controller>(identifier: nil, storyboardName: storyboardName, bundle: bundle)
         } else {
-            let identifier = identifier.replacingOccurrences(of: "instantiate", with: "")
-            controller = storyboard.instantiateViewController(withIdentifier: identifier.capitalizingFirstLetter())
-            if controller == nil {
-                controller = storyboard.instantiateViewController(withIdentifier: identifier)
-            }
+            return Loader<Controller>(identifier: identifier.capitalizingFirstLetter(), storyboardName: storyboardName, bundle: bundle)
         }
+    }
 
-        if controller == nil {
-            controller = storyboard.instantiateViewController(withIdentifier: identifier)
-        }
-
-        return controller!
+    public static func load<Controller: UIViewController>(_ identifier: String = #function) -> Controller {
+        return loader(identifier).load()
     }
 }
 
@@ -50,11 +42,13 @@ extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
         return Self.load(rawValue)
     }
 
-    public func load() -> UIViewController {
-        return Self.load(rawValue)
+    public func loader<Controller: UIViewController>() -> Loader<Controller> {
+        return Self.loader(rawValue)
     }
 }
 
 extension HasInitialController where Self: Storyboard {
-    public static func initialViewController() -> InitialControllerType { return load() }
+
+    static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
+    public static var initialViewController: Loader<InitialControllerType> { return loader() }
 }

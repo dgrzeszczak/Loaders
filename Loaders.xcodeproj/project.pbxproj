@@ -20,10 +20,11 @@
 		081A180D221D4113003707D9 /* InModuleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081A180B221D4113003707D9 /* InModuleViewController.swift */; };
 		081A1811221D4253003707D9 /* LoadersTestsModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081A1802221D40AE003707D9 /* LoadersTestsModule.framework */; };
 		081A1813221D44B1003707D9 /* Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081A1812221D44B1003707D9 /* Nib.swift */; };
+		086DD4CA2243FF2E008BA144 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086DD4C92243FF2E008BA144 /* Loader.swift */; };
 		088F784E221BE5E10095CBC6 /* Loaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088F7844221BE5E10095CBC6 /* Loaders.framework */; };
 		088F7853221BE5E20095CBC6 /* LoadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F7852221BE5E20095CBC6 /* LoadersTests.swift */; };
 		088F7855221BE5E20095CBC6 /* Loaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 088F7847221BE5E10095CBC6 /* Loaders.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		088F7860221BE66C0095CBC6 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F785F221BE66C0095CBC6 /* Loader.swift */; };
+		088F7860221BE66C0095CBC6 /* BundleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F785F221BE66C0095CBC6 /* BundleLoader.swift */; };
 		088F7863221BEFDB0095CBC6 /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F7862221BEFDB0095CBC6 /* Storyboard.swift */; };
 		088F7866221BF0200095CBC6 /* Nibs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F7865221BF0200095CBC6 /* Nibs.swift */; };
 		088F7869221BF0640095CBC6 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F7868221BF0640095CBC6 /* Reusable.swift */; };
@@ -74,13 +75,14 @@
 		081A180A221D4112003707D9 /* InModule.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InModule.storyboard; sourceTree = "<group>"; };
 		081A180B221D4113003707D9 /* InModuleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InModuleViewController.swift; sourceTree = "<group>"; };
 		081A1812221D44B1003707D9 /* Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nib.swift; sourceTree = "<group>"; };
+		086DD4C92243FF2E008BA144 /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		088F7844221BE5E10095CBC6 /* Loaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Loaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		088F7847221BE5E10095CBC6 /* Loaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loaders.h; sourceTree = "<group>"; };
 		088F7848221BE5E10095CBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		088F784D221BE5E10095CBC6 /* LoadersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoadersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		088F7852221BE5E20095CBC6 /* LoadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadersTests.swift; sourceTree = "<group>"; };
 		088F7854221BE5E20095CBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		088F785F221BE66C0095CBC6 /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		088F785F221BE66C0095CBC6 /* BundleLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleLoader.swift; sourceTree = "<group>"; };
 		088F7862221BEFDB0095CBC6 /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		088F7865221BF0200095CBC6 /* Nibs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nibs.swift; sourceTree = "<group>"; };
 		088F7868221BF0640095CBC6 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
@@ -189,7 +191,8 @@
 		088F785E221BE64C0095CBC6 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				088F785F221BE66C0095CBC6 /* Loader.swift */,
+				088F785F221BE66C0095CBC6 /* BundleLoader.swift */,
+				086DD4C92243FF2E008BA144 /* Loader.swift */,
 				088F7862221BEFDB0095CBC6 /* Storyboard.swift */,
 				081A1812221D44B1003707D9 /* Nib.swift */,
 				088F7865221BF0200095CBC6 /* Nibs.swift */,
@@ -426,10 +429,11 @@
 			files = (
 				088F786C221BF1630095CBC6 /* Utils.swift in Sources */,
 				081A1813221D44B1003707D9 /* Nib.swift in Sources */,
+				086DD4CA2243FF2E008BA144 /* Loader.swift in Sources */,
 				088F7869221BF0640095CBC6 /* Reusable.swift in Sources */,
 				088F7863221BEFDB0095CBC6 /* Storyboard.swift in Sources */,
 				088F7866221BF0200095CBC6 /* Nibs.swift in Sources */,
-				088F7860221BE66C0095CBC6 /* Loader.swift in Sources */,
+				088F7860221BE66C0095CBC6 /* BundleLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -630,7 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

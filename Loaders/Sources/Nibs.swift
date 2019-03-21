@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol Nibs: Loader { }
+public protocol Nibs: BundleLoader { }
 
 //Reusable<View>
 extension Nibs {

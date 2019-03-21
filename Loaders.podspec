@@ -1,6 +1,6 @@
 ﻿Pod::Spec.new do |s|
   s.name = 'Loaders'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.license = 'MIT'
   s.summary = 'Simple μFramework for loading Storyboard and Xib files for iOS.'
   s.description = <<-DESC
@@ -11,7 +11,7 @@ Loaders is a simple way to define all your storyboard's UIViewControllers and NI
   s.authors = { 'Dariusz Grzeszczak' => 'dariusz.grzeszczak@interia.pl' }
   s.source = { :git => 'https://github.com/dgrzeszczak/Loaders.git', :tag => s.version }
 
-  s.ios.deployment_target = '9.3'
+  s.ios.deployment_target = '9.0'
 
   s.swift_version = '4.2'
 
