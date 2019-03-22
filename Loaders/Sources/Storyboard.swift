@@ -52,3 +52,55 @@ extension HasInitialController where Self: Storyboard {
     static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
     public static var initialViewController: Loader<InitialControllerType> { return loader() }
 }
+
+// ViewModelDriven
+extension Storyboard {
+    public static func loader<Controller: UIViewController>(_ identifier: String = #function,
+                                                            with viewModel: Controller.ViewModelType,
+                                                            loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> Loader<Controller> where Controller: ViewModelDriven {
+
+        return Loader<Controller>(loader: loader(identifier), with: viewModel, loadViewAndObserve: loadViewAndObserve)
+    }
+
+    public static func load<Controller: UIViewController>(_ identifier: String = #function,
+                                                          with viewModel: Controller.ViewModelType,
+                                                          loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> Controller where Controller: ViewModelDriven {
+
+        return loader(identifier, with: viewModel, loadViewAndObserve: loadViewAndObserve).load()
+    }
+}
+
+extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
+    public func load<Controller: UIViewController>(with viewModel: Controller.ViewModelType,
+                                                   loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> Controller where Controller: ViewModelDriven {
+
+        return Self.load(rawValue, with: viewModel, loadViewAndObserve: loadViewAndObserve)
+    }
+
+    public func loader<Controller: UIViewController>(with viewModel: Controller.ViewModelType,
+                                                     loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> Loader<Controller> where Controller: ViewModelDriven {
+        return Self.loader(rawValue, with: viewModel, loadViewAndObserve: loadViewAndObserve)
+    }
+}
+
+
+extension HasInitialController where Self: Storyboard, InitialControllerType: ViewModelDriven {
+
+    static func instantiateInitialViewController(with viewModel: InitialControllerType.ViewModelType,
+                                                 loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> InitialControllerType {
+
+        return initialViewController(with: viewModel, loadViewAndObserve: loadViewAndObserve).load()
+    }
+
+    static func initialViewController(with viewModel: InitialControllerType.ViewModelType,
+                                      loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve)
+    -> Loader<InitialControllerType> {
+
+        return Loader<InitialControllerType>(loader: initialViewController, with: viewModel, loadViewAndObserve: loadViewAndObserve)
+    }
+}
