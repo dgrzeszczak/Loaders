@@ -30,8 +30,8 @@ private extension UIResponder {
         set { objc_setAssociatedObject(self, &AssociatedKeys.viewModelKey, newValue, .OBJC_ASSOCIATION_RETAIN) }
     }
 
-    @objc dynamic var _observer: Any? {
-        get { return objc_getAssociatedObject(self, &AssociatedKeys.observerKey) as? NSObject }
+    var _observer: Any? {
+        get { return objc_getAssociatedObject(self, &AssociatedKeys.observerKey) }
         set { objc_setAssociatedObject(self, &AssociatedKeys.observerKey, newValue, .OBJC_ASSOCIATION_RETAIN) }
     }
 }
@@ -43,8 +43,9 @@ extension ViewModelDriven where Self: UIResponder {
         set { _viewModel = newValue }
     }
 
-    public func observeViewModel() {
-        unobserveViewModel()
+    public func observeViewModel(force: Bool = false) {
+
+        guard _observer == nil || force else { return }
         _observer = observe(\Self._viewModel, options: [.initial, .new]) { [unowned self] field, observable in
             if let viewModel = observable.newValue as? ViewModelType {
                 self.bind(viewModel: viewModel)
