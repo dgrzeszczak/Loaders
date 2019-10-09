@@ -49,7 +49,7 @@ extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
 
 extension HasInitialController where Self: Storyboard {
 
-    static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
+    public static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
     public static var initialViewController: Loader<InitialControllerType> { return loader() }
 }
 

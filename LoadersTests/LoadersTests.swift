@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Loaders
+import Loaders
 
 enum Storyboards {
     enum FirstSingle: Storyboard, HasInitialController { }
