@@ -60,6 +60,18 @@ extension ViewModelDriven where Self: UIResponder {
     public func bind(viewModel: ViewModelType) { }
 }
 
+extension ViewModelDriven where Self: UIView {
+    public init(frame: CGRect, viewModel: ViewModelType) {
+        self.init(frame: frame)
+        self.viewModel = viewModel
+    }
+
+    public init(viewModel: ViewModelType) {
+        self.init(frame: .zero)
+        self.viewModel = viewModel
+    }
+}
+
 extension Reusable where View: UITableViewCell, View: ViewModelDriven {
 
     public func dequeue(on tableView: UITableView, for indexPath: IndexPath, with viewModel: View.ViewModelType) -> View {
