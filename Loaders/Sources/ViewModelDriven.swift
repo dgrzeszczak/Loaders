@@ -40,7 +40,7 @@ extension ViewModelDriven where Self: UIResponder {
 
     public var viewModel: ViewModelType {
         get { return _viewModel as! ViewModelType}
-        set { _viewModel = newValue }
+        set { _viewModel = newValue; observeViewModel() }
     }
 
     public func observeViewModel(force: Bool = false) {
@@ -61,16 +61,17 @@ extension ViewModelDriven where Self: UIResponder {
 }
 
 extension ViewModelDriven where Self: UIView {
+
     public init(frame: CGRect, viewModel: ViewModelType) {
         self.init(frame: frame)
         self.viewModel = viewModel
-        observeViewModel()
+        //observeViewModel()
     }
 
     public init(viewModel: ViewModelType) {
         self.init(frame: .zero)
         self.viewModel = viewModel
-        observeViewModel()
+        //observeViewModel()
     }
 }
 
@@ -80,7 +81,7 @@ extension Reusable where View: UITableViewCell, View: ViewModelDriven {
 
         let cell = dequeue(on: tableView, for: indexPath)
         cell.viewModel = viewModel
-        cell.observeViewModel()
+        //cell.observeViewModel()
         return cell
     }
 }
@@ -91,7 +92,7 @@ extension Reusable where View: UICollectionViewCell, View: ViewModelDriven {
 
         let cell = dequeue(on: collectionView, for: indexPath)
         cell.viewModel = viewModel
-        cell.observeViewModel()
+        //cell.observeViewModel()
         return cell
     }
 }
@@ -102,7 +103,7 @@ extension Reusable where View: UICollectionReusableView, View: ViewModelDriven {
 
         let view = dequeue(on: collectionView, kind: kind, for: indexPath)
         view.viewModel = viewModel
-        view.observeViewModel()
+        //view.observeViewModel()
         return view
     }
 }
