@@ -64,11 +64,13 @@ extension ViewModelDriven where Self: UIView {
     public init(frame: CGRect, viewModel: ViewModelType) {
         self.init(frame: frame)
         self.viewModel = viewModel
+        observeViewModel()
     }
 
     public init(viewModel: ViewModelType) {
         self.init(frame: .zero)
         self.viewModel = viewModel
+        observeViewModel()
     }
 }
 
