@@ -6,6 +6,9 @@
 //  Copyright © 2019 Dariusz Grzeszczak. All rights reserved.
 //
 
+import Foundation
+import UIKit
+
 public enum ViewModelDrivenConfig {
     public enum Controller {
         public static var loadViewAndObserve = true
