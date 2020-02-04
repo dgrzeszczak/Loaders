@@ -101,6 +101,7 @@
 		088F7889221C776B0095CBC6 /* CollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionReusableView.xib; sourceTree = "<group>"; };
 		088F788C221C78160095CBC6 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		088F788E221C78270095CBC6 /* DesignableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DesignableView.xib; sourceTree = "<group>"; };
+		37372F2523E9152600B8641C /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +152,7 @@
 		088F783A221BE5E10095CBC6 = {
 			isa = PBXGroup;
 			children = (
+				37372F2523E9152600B8641C /* Package.swift */,
 				088F7846221BE5E10095CBC6 /* Loaders */,
 				088F7851221BE5E20095CBC6 /* LoadersTests */,
 				081A1803221D40AE003707D9 /* LoadersTestsModule */,
