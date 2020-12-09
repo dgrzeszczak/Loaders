@@ -9,6 +9,27 @@
 import XCTest
 import Loaders
 
+enum Colors: String, Color  {
+
+    case color1
+    case groupColor1 = "Group/color1"
+
+    enum Group: String, GroupedColor {
+        case color1
+    }
+
+    enum LoadersTestsModule {
+
+        enum Colors: String, Color {
+            case color2
+        }
+
+        enum Group: String, GroupedColor {
+             case color2
+         }
+    }
+}
+
 enum Storyboards {
     enum FirstSingle: Storyboard, HasInitialController { }
 
@@ -166,6 +187,18 @@ class LoadersTests: XCTestCase {
         _ = Storyboards.SecondMultiple.allCases.map { $0.load() } //[UIViewControllers]
 
         _ = Storyboards.LoadersTestsModule.InModule.instantiateInitialViewController() // UIViewController
+    }
+
+    func testColors() {
+        
+        XCTAssert(Colors.color1.uiColor != nil)
+        XCTAssert(Colors.groupColor1.uiColor != nil)
+        XCTAssert(Colors.Group.color1.uiColor != nil)
+
+        // module
+        XCTAssert(Colors.LoadersTestsModule.Colors.color2.uiColor != nil)
+        XCTAssert(Colors.LoadersTestsModule.Group.color2.uiColor != nil)
+
     }
 
 

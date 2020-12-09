@@ -22,6 +22,9 @@
 		081A1813221D44B1003707D9 /* Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081A1812221D44B1003707D9 /* Nib.swift */; };
 		086DD4CA2243FF2E008BA144 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086DD4C92243FF2E008BA144 /* Loader.swift */; };
 		086DD4CD224415B0008BA144 /* ViewModelDriven.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086DD4CC224415B0008BA144 /* ViewModelDriven.swift */; };
+		088DD421250685B3000DA207 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088DD420250685B3000DA207 /* Color.swift */; };
+		088DD42625069256000DA207 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088DD42525069256000DA207 /* Media.xcassets */; };
+		088DD42825069276000DA207 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088DD42725069276000DA207 /* Media.xcassets */; };
 		088F784E221BE5E10095CBC6 /* Loaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088F7844221BE5E10095CBC6 /* Loaders.framework */; };
 		088F7853221BE5E20095CBC6 /* LoadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088F7852221BE5E20095CBC6 /* LoadersTests.swift */; };
 		088F7855221BE5E20095CBC6 /* Loaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 088F7847221BE5E10095CBC6 /* Loaders.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,6 +81,9 @@
 		081A1812221D44B1003707D9 /* Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nib.swift; sourceTree = "<group>"; };
 		086DD4C92243FF2E008BA144 /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		086DD4CC224415B0008BA144 /* ViewModelDriven.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDriven.swift; sourceTree = "<group>"; };
+		088DD420250685B3000DA207 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		088DD42525069256000DA207 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		088DD42725069276000DA207 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		088F7844221BE5E10095CBC6 /* Loaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Loaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		088F7847221BE5E10095CBC6 /* Loaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loaders.h; sourceTree = "<group>"; };
 		088F7848221BE5E10095CBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +144,7 @@
 				081A180B221D4113003707D9 /* InModuleViewController.swift */,
 				081A1804221D40AE003707D9 /* LoadersTestsModule.h */,
 				081A1805221D40AE003707D9 /* Info.plist */,
+				088DD42525069256000DA207 /* Media.xcassets */,
 			);
 			path = LoadersTestsModule;
 			sourceTree = "<group>";
@@ -188,6 +195,7 @@
 				088F786E221C75950095CBC6 /* Storyboard */,
 				088F7852221BE5E20095CBC6 /* LoadersTests.swift */,
 				088F7854221BE5E20095CBC6 /* Info.plist */,
+				088DD42725069276000DA207 /* Media.xcassets */,
 			);
 			path = LoadersTests;
 			sourceTree = "<group>";
@@ -195,6 +203,7 @@
 		088F785E221BE64C0095CBC6 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				088DD420250685B3000DA207 /* Color.swift */,
 				088F785F221BE66C0095CBC6 /* BundleLoader.swift */,
 				086DD4C92243FF2E008BA144 /* Loader.swift */,
 				088F7862221BEFDB0095CBC6 /* Storyboard.swift */,
@@ -389,6 +398,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				088DD42625069256000DA207 /* Media.xcassets in Resources */,
 				081A180C221D4113003707D9 /* InModule.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +419,7 @@
 				088F7887221C77420095CBC6 /* SecondCollectionViewCell.xib in Resources */,
 				088F7879221C76CF0095CBC6 /* FirstTableViewCell.xib in Resources */,
 				088F7881221C771F0095CBC6 /* FirstCollectionViewCell.xib in Resources */,
+				088DD42825069276000DA207 /* Media.xcassets in Resources */,
 				081A17F0221C8044003707D9 /* SecondSingle.storyboard in Resources */,
 				088F788F221C78270095CBC6 /* DesignableView.xib in Resources */,
 				088F787D221C76F50095CBC6 /* SecondTableViewCell.xib in Resources */,
@@ -440,6 +451,7 @@
 				088F7863221BEFDB0095CBC6 /* Storyboard.swift in Sources */,
 				088F7866221BF0200095CBC6 /* Nibs.swift in Sources */,
 				088F7860221BE66C0095CBC6 /* BundleLoader.swift in Sources */,
+				088DD421250685B3000DA207 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
