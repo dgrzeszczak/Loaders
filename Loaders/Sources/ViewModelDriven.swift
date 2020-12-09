@@ -9,12 +9,6 @@
 import Foundation
 import UIKit
 
-public enum ViewModelDrivenConfig {
-    public enum Controller {
-        public static var loadViewAndObserve = true
-    }
-}
-
 public protocol ViewModelDriven: class {
     associatedtype ViewModelType
 
@@ -68,13 +62,11 @@ extension ViewModelDriven where Self: UIView {
     public init(frame: CGRect, viewModel: ViewModelType) {
         self.init(frame: frame)
         self.viewModel = viewModel
-        //observeViewModel()
     }
 
     public init(viewModel: ViewModelType) {
         self.init(frame: .zero)
         self.viewModel = viewModel
-        //observeViewModel()
     }
 }
 
@@ -84,7 +76,6 @@ extension Reusable where View: UITableViewCell, View: ViewModelDriven {
 
         let cell = dequeue(on: tableView, for: indexPath)
         cell.viewModel = viewModel
-        //cell.observeViewModel()
         return cell
     }
 }
@@ -95,7 +86,6 @@ extension Reusable where View: UICollectionViewCell, View: ViewModelDriven {
 
         let cell = dequeue(on: collectionView, for: indexPath)
         cell.viewModel = viewModel
-        //cell.observeViewModel()
         return cell
     }
 }
@@ -106,7 +96,45 @@ extension Reusable where View: UICollectionReusableView, View: ViewModelDriven {
 
         let view = dequeue(on: collectionView, kind: kind, for: indexPath)
         view.viewModel = viewModel
-        //view.observeViewModel()
         return view
+    }
+}
+
+extension Loader where Controller: ViewModelDriven {
+
+    public init(identifier: String?,
+                storyboardName: String,
+                bundle: Bundle,
+                with viewModel: Controller.ViewModelType,
+                loadViewIfNeeded: Bool = true) {
+
+        self.init {
+            let controller: Controller = StoryboardFactory.create(identifier: identifier,
+                                                                  storyboardName: storyboardName,
+                                                                  bundle: bundle)
+            if loadViewIfNeeded {
+                controller.loadViewIfNeeded()
+            }
+            controller.viewModel = viewModel
+            return controller
+        }
+    }
+
+    public init(loader: Loader<Controller>,
+                with viewModel: Controller.ViewModelType,
+                loadViewIfNeeded: Bool = true) {
+
+        factory = { loader.load(with: viewModel, loadViewIfNeeded: loadViewIfNeeded) }
+    }
+
+    public func load(with viewModel: Controller.ViewModelType,
+                     loadViewIfNeeded: Bool = true) {
+
+        let controller = load()
+        if loadViewIfNeeded {
+            controller.loadViewIfNeeded()
+        }
+        controller.viewModel = viewModel
+        return controller
     }
 }

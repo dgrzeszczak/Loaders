@@ -22,20 +22,8 @@ public struct Loader<Controller: UIViewController> {
 
     public init(identifier: String?, storyboardName: String, bundle: Bundle) {
         self.factory = {
-            Loader<Controller>.storyboardFactory(identifier: identifier,
-                                                 storyboardName: storyboardName,
-                                                 bundle: bundle)
+            StoryboardFactory.create(identifier: identifier, storyboardName: storyboardName, bundle: bundle)
         }
-    }
-
-    private static func storyboardFactory(identifier: String?, storyboardName: String, bundle: Bundle) -> Controller {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
-
-        guard let identifier = identifier else {
-            return storyboard.instantiateInitialViewController() as! Controller
-        }
-
-        return storyboard.instantiateViewController(withIdentifier: identifier)  as! Controller
     }
 
     public func load() -> Controller {
@@ -54,46 +42,19 @@ extension ControllerLoader where Self: Storyboard, Self: RawRepresentable, Self.
     }
 }
 
-extension Loader: ControllerLoader where Controller == UIViewController { }
+enum StoryboardFactory {
+    static func create<Controller>(identifier: String?,
+                                   storyboardName: String,
+                                   bundle: Bundle) -> Controller where Controller: UIViewController {
 
-// ViewModelDriven
-extension Loader where Controller: ViewModelDriven {
+        let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
 
-    public init(identifier: String?,
-                storyboardName: String,
-                bundle: Bundle,
-                with viewModel: Controller.ViewModelType,
-                loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve) {
-
-        factory = {
-            let controller = Loader<Controller>.storyboardFactory(identifier: identifier,
-                                                                  storyboardName: storyboardName,
-                                                                  bundle: bundle)
-            controller.viewModel = viewModel
-            if loadViewAndObserve {
-                controller.loadViewIfNeeded()
-                controller.observeViewModel()
-            }
-            return controller
+        guard let identifier = identifier else {
+            return storyboard.instantiateInitialViewController() as! Controller
         }
-    }
 
-    public init(loader: Loader<Controller>,
-                with viewModel: Controller.ViewModelType,
-                loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve) {
-
-        factory = { loader.load(with: viewModel, loadViewAndObserve: loadViewAndObserve) }
-    }
-
-    public func load(with viewModel: Controller.ViewModelType,
-                     loadViewAndObserve: Bool = ViewModelDrivenConfig.Controller.loadViewAndObserve) -> Controller {
-
-        let controller = load()
-        controller.viewModel = viewModel
-        if loadViewAndObserve {
-            controller.loadViewIfNeeded()
-            controller.observeViewModel()
-        }
-        return controller
+        return storyboard.instantiateViewController(withIdentifier: identifier)  as! Controller
     }
 }
+
+extension Loader: ControllerLoader where Controller == UIViewController { }
