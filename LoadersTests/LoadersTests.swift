@@ -38,32 +38,32 @@ enum Storyboards {
     }
 
     enum FirstMultiple: Storyboard {
-        static var firstMultipleViewController1: FirstMultipleViewController1 { return load() }
-        static var firstMultipleViewController2: FirstMultipleViewController2 { return load() }
-        static var firstMultipleViewController3: FirstMultipleViewController3 { return load() }
+        static var firstMultipleViewController1: FirstMultipleViewController1 { load() }
+        static var firstMultipleViewController2: FirstMultipleViewController2 { load() }
+        static var firstMultipleViewController3: FirstMultipleViewController3 { load() }
     }
 
     enum WithFunctionsExample {
         enum FirstMultiple: Storyboard {
-            static func firstMultipleViewController1() -> FirstMultipleViewController1 { return load() }
-            static func firstMultipleViewController2() -> FirstMultipleViewController2 { return load() }
-            static func firstMultipleViewController3() -> FirstMultipleViewController3 { return load() }
+            static func firstMultipleViewController1() -> FirstMultipleViewController1 { load() }
+            static func firstMultipleViewController2() -> FirstMultipleViewController2 { load() }
+            static func firstMultipleViewController3() -> FirstMultipleViewController3 { load() }
         }
     }
 
     enum WtihLoadersExample {
         enum FirstMultiple: Storyboard {
-            static var firstMultipleViewController1: ControllerLoader { return loader() }
-            static var firstMultipleViewController2: ControllerLoader { return loader() }
-            static var firstMultipleViewController3: ControllerLoader { return loader() }
+            static var firstMultipleViewController1: ControllerLoader { loader() }
+            static var firstMultipleViewController2: ControllerLoader { loader() }
+            static var firstMultipleViewController3: ControllerLoader { loader() }
         }
     }
 
     enum WtihTypedLoadersExample {
         enum FirstMultiple: Storyboard {
-            static var firstMultipleViewController1: Loader<FirstMultipleViewController1> { return loader() }
-            static var firstMultipleViewController2: Loader<FirstMultipleViewController2> { return loader() }
-            static var firstMultipleViewController3: Loader<FirstMultipleViewController3> { return loader() }
+            static var firstMultipleViewController1: Loader<FirstMultipleViewController1> { loader() }
+            static var firstMultipleViewController2: Loader<FirstMultipleViewController2> { loader() }
+            static var firstMultipleViewController3: Loader<FirstMultipleViewController3> { loader() }
         }
     }
 
@@ -94,15 +94,15 @@ extension Storyboards.SecondMultiple: CaseIterable { } //for tests only
 
 enum CollectionViewCells: Nibs {
 
-    static var firstCollectionViewCell: Reusable<FirstCollectionViewCell> { return load() }
-    static var secondCollectionViewCell: Reusable<SecondCollectionViewCell> { return load() }
-    static var collectionReusableView: Reusable<CollectionReusableView> { return load() }
+    static var firstCollectionViewCell: Reusable<FirstCollectionViewCell> { load() }
+    static var secondCollectionViewCell: Reusable<SecondCollectionViewCell> { load() }
+    static var collectionReusableView: Reusable<CollectionReusableView> { load() }
 }
 
 enum TableViewCells: Nibs {
 
-    static var firstTableViewCell: Reusable<FirstTableViewCell> { return load() }
-    static var secondTableViewCell: Reusable<SecondTableViewCell> { return load() }
+    static var firstTableViewCell: Reusable<FirstTableViewCell> { load() }
+    static var secondTableViewCell: Reusable<SecondTableViewCell> { load() }
 }
 
 class LoadersTests: XCTestCase {
@@ -176,6 +176,7 @@ class LoadersTests: XCTestCase {
 
         let _: SecondMultipleViewController1 = Storyboards.SecondMultiple.secondMultipleViewController1.loader().load()
         let _: SecondMultipleViewController2 = Storyboards.SecondMultiple.secondMultipleViewController2.loader().load()
+        let _: SecondMultipleViewController3 = Storyboards.SecondMultiple.secondMultipleViewController3.loader().load()
         let _: SecondMultipleViewController3 = Storyboards.SecondMultiple.secondMultipleViewController3.loader().load()
 
         let arr: [ControllerLoader] = [Storyboards.WithControllerLoader.SecondMultiple.secondMultipleViewController1,

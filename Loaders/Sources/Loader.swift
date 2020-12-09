@@ -14,15 +14,34 @@ public protocol ControllerLoader {
 
 public struct Loader<Controller: UIViewController> {
 
-    private let factory: () -> Controller
+    let factory: () -> Controller
+    public let key: String
 
-    public init(factory: @escaping () -> Controller) {
-        self.factory = factory
+    public init(factory: @escaping () -> Controller, key: String, completion: ((Controller) -> Void)? = nil) {
+        self.factory = {
+            let controller: Controller = factory()
+            completion?(controller)
+            return controller
+        }
+        self.key = key
     }
 
-    public init(identifier: String?, storyboardName: String, bundle: Bundle) {
+    public init(identifier: String?, storyboardName: String, bundle: Bundle, completion: ((Controller) -> Void)? = nil) {
+
+        let key = "\(bundle.bundleURL.lastPathComponent.split(separator: ".")[0]).\(storyboardName)"
+        if let identifier = identifier {
+            self.key = "\(key).\(identifier)"
+        } else {
+            self.key = key
+        }
+
+        print(self.key)
         self.factory = {
-            StoryboardFactory.create(identifier: identifier, storyboardName: storyboardName, bundle: bundle)
+            let controller: Controller = StoryboardFactory.create(identifier: identifier,
+                                                                  storyboardName: storyboardName,
+                                                                  bundle: bundle)
+            completion?(controller)
+            return controller
         }
     }
 
@@ -32,13 +51,7 @@ public struct Loader<Controller: UIViewController> {
 
     public var any: ControllerLoader {
         if let zelf = self as? Loader<UIViewController> { return zelf }
-        return Loader<UIViewController>(factory: factory)
-    }
-}
-
-extension ControllerLoader where Self: Storyboard, Self: RawRepresentable, Self.RawValue == String {
-    public func load() -> UIViewController {
-        return loader().load()
+        return Loader<UIViewController>(factory: factory, key: key)
     }
 }
 

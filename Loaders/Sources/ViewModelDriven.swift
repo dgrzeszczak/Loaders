@@ -106,29 +106,35 @@ extension Loader where Controller: ViewModelDriven {
                 storyboardName: String,
                 bundle: Bundle,
                 with viewModel: Controller.ViewModelType,
-                loadViewIfNeeded: Bool = true) {
+                loadViewIfNeeded: Bool = true,
+                completion: ((Controller) -> Void)? = nil) {
 
-        self.init {
-            let controller: Controller = StoryboardFactory.create(identifier: identifier,
-                                                                  storyboardName: storyboardName,
-                                                                  bundle: bundle)
+        self.init(identifier: identifier, storyboardName: storyboardName, bundle: bundle) { controller in
             if loadViewIfNeeded {
                 controller.loadViewIfNeeded()
             }
             controller.viewModel = viewModel
-            return controller
+            completion?(controller)
         }
     }
 
-    public init(loader: Loader<Controller>,
-                with viewModel: Controller.ViewModelType,
-                loadViewIfNeeded: Bool = true) {
+//    public init(loader: Loader<Controller>,
+//                with viewModel: Controller.ViewModelType,
+//                loadViewIfNeeded: Bool = true,
+//                completion: ((Controller) -> Void)?
+//    ) {
+//
+//        self.init(factory: loader.load, key: loader.key) { controller in
+//            if loadViewIfNeeded {
+//                controller.loadViewIfNeeded()
+//            }
+//            controller.viewModel = viewModel
+//            completion?(controller)
+//        }
+//    }
 
-        factory = { loader.load(with: viewModel, loadViewIfNeeded: loadViewIfNeeded) }
-    }
-
-    public func load(with viewModel: Controller.ViewModelType,
-                     loadViewIfNeeded: Bool = true) {
+    //todo
+    public func load(with viewModel: Controller.ViewModelType, loadViewIfNeeded: Bool = true) -> Controller {
 
         let controller = load()
         if loadViewIfNeeded {
@@ -136,5 +142,66 @@ extension Loader where Controller: ViewModelDriven {
         }
         controller.viewModel = viewModel
         return controller
+    }
+}
+
+
+// ViewModelDriven
+extension Storyboard {
+    public static func loader<Controller: UIViewController>(_ identifier: String = #function,
+                                                            with viewModel: Controller.ViewModelType,
+                                                            loadViewIfNeeded: Bool = true,
+                                                            completion: ((Controller) -> Void)? = nil)
+    -> Loader<Controller> where Controller: ViewModelDriven {
+
+        return loader(identifier) { controller in
+            if loadViewIfNeeded {
+                controller.loadViewIfNeeded()
+            }
+            controller.viewModel = viewModel
+            completion?(controller)
+        }
+    }
+
+    public static func load<Controller: UIViewController>(_ identifier: String = #function,
+                                                          with viewModel: Controller.ViewModelType,
+                                                          loadViewIfNeeded: Bool = true)
+    -> Controller where Controller: ViewModelDriven {
+
+        return loader(identifier, with: viewModel, loadViewIfNeeded: loadViewIfNeeded).load()
+    }
+}
+
+extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
+    public func load<Controller: UIViewController>(with viewModel: Controller.ViewModelType,
+                                                   loadViewIfNeeded: Bool = true)
+    -> Controller where Controller: ViewModelDriven {
+
+        return Self.load(rawValue, with: viewModel, loadViewIfNeeded: loadViewIfNeeded)
+    }
+
+    public func loader<Controller: UIViewController>(with viewModel: Controller.ViewModelType,
+                                                     loadViewIfNeeded: Bool = true,
+                                                     completion: ((Controller) -> Void)? = nil)
+    -> Loader<Controller> where Controller: ViewModelDriven {
+        return Self.loader(rawValue, with: viewModel, loadViewIfNeeded: loadViewIfNeeded, completion: completion)
+    }
+}
+
+
+extension HasInitialController where Self: Storyboard, InitialControllerType: ViewModelDriven {
+
+    static func instantiateInitialViewController(with viewModel: InitialControllerType.ViewModelType,
+                                                 loadViewIfNeeded: Bool = true)
+    -> InitialControllerType {
+
+        return initialViewController(with: viewModel, loadViewIfNeeded: loadViewIfNeeded).load()
+    }
+
+    static func initialViewController(with viewModel: InitialControllerType.ViewModelType,
+                                      loadViewIfNeeded: Bool = true)
+    -> Loader<InitialControllerType> {
+
+        return loader(with: viewModel, loadViewIfNeeded: loadViewIfNeeded)
     }
 }
