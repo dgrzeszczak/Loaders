@@ -8,8 +8,10 @@
 
 import XCTest
 import Loaders
+import SwiftUI
 
-enum Colors: String, Color  {
+//Todo
+enum Colors: String, Loaders.Color  {
 
     case color1
     case groupColor1 = "Group/color1"
@@ -20,13 +22,20 @@ enum Colors: String, Color  {
 
     enum LoadersTestsModule {
 
-        enum Colors: String, Color {
+        enum Colors: String, Loaders.Color {
             case color2
         }
 
         enum Group: String, GroupedColor {
              case color2
          }
+    }
+}
+
+struct TestSwiftUIView: View {
+
+    var body: some View {
+        EmptyView()
     }
 }
 
@@ -203,7 +212,9 @@ class LoadersTests: XCTestCase {
     }
 
 
-    func testOwe() {
+    func testSwiftUI() {
+
+        _ = Loader(TestSwiftUIView())
 
 
     }

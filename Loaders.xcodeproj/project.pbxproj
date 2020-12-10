@@ -22,6 +22,7 @@
 		081A1813221D44B1003707D9 /* Nib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081A1812221D44B1003707D9 /* Nib.swift */; };
 		086DD4CA2243FF2E008BA144 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086DD4C92243FF2E008BA144 /* Loader.swift */; };
 		086DD4CD224415B0008BA144 /* ViewModelDriven.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086DD4CC224415B0008BA144 /* ViewModelDriven.swift */; };
+		0882FC932581951100D0CC6A /* ViewLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0882FC922581951100D0CC6A /* ViewLoader.swift */; };
 		088DD421250685B3000DA207 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088DD420250685B3000DA207 /* Color.swift */; };
 		088DD42625069256000DA207 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088DD42525069256000DA207 /* Media.xcassets */; };
 		088DD42825069276000DA207 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088DD42725069276000DA207 /* Media.xcassets */; };
@@ -81,6 +82,7 @@
 		081A1812221D44B1003707D9 /* Nib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nib.swift; sourceTree = "<group>"; };
 		086DD4C92243FF2E008BA144 /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		086DD4CC224415B0008BA144 /* ViewModelDriven.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelDriven.swift; sourceTree = "<group>"; };
+		0882FC922581951100D0CC6A /* ViewLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLoader.swift; sourceTree = "<group>"; };
 		088DD420250685B3000DA207 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		088DD42525069256000DA207 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		088DD42725069276000DA207 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				088DD420250685B3000DA207 /* Color.swift */,
 				088F785F221BE66C0095CBC6 /* BundleLoader.swift */,
 				086DD4C92243FF2E008BA144 /* Loader.swift */,
+				0882FC922581951100D0CC6A /* ViewLoader.swift */,
 				088F7862221BEFDB0095CBC6 /* Storyboard.swift */,
 				081A1812221D44B1003707D9 /* Nib.swift */,
 				088F7865221BF0200095CBC6 /* Nibs.swift */,
@@ -448,6 +451,7 @@
 				086DD4CA2243FF2E008BA144 /* Loader.swift in Sources */,
 				088F7869221BF0640095CBC6 /* Reusable.swift in Sources */,
 				086DD4CD224415B0008BA144 /* ViewModelDriven.swift in Sources */,
+				0882FC932581951100D0CC6A /* ViewLoader.swift in Sources */,
 				088F7863221BEFDB0095CBC6 /* Storyboard.swift in Sources */,
 				088F7866221BF0200095CBC6 /* Nibs.swift in Sources */,
 				088F7860221BE66C0095CBC6 /* BundleLoader.swift in Sources */,
@@ -721,6 +725,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LoadersTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -739,6 +744,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LoadersTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

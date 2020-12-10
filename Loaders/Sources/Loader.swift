@@ -15,9 +15,9 @@ public protocol ControllerLoader {
 public struct Loader<Controller: UIViewController> {
 
     let factory: () -> Controller
-    public let key: String
+    public let key: String?
 
-    public init(factory: @escaping () -> Controller, key: String, completion: ((Controller) -> Void)? = nil) {
+    public init(factory: @escaping () -> Controller, key: String? = nil, completion: ((Controller) -> Void)? = nil) {
         self.factory = {
             let controller: Controller = factory()
             completion?(controller)
@@ -35,7 +35,6 @@ public struct Loader<Controller: UIViewController> {
             self.key = key
         }
 
-        print(self.key)
         self.factory = {
             let controller: Controller = StoryboardFactory.create(identifier: identifier,
                                                                   storyboardName: storyboardName,
