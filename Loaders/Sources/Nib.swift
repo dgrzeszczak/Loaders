@@ -10,11 +10,11 @@ import UIKit
 
 public struct Nib<View> where View: UIView {
 
-    public static func add(to owner: View) {
+    public static func add(to owner: View, bundle: Bundle? = nil) {
 
         let elements = String(describing: type(of: owner)).split(separator: ".")
         let nibName = String(elements[elements.count - 1])
-        let bundle = Bundle(for: type(of: owner))
+        let bundle = bundle ?? Bundle(for: type(of: owner))
         let nib = UINib(nibName: nibName, bundle: bundle)
         guard let view = nib.instantiate(withOwner: owner, options: nil).first as? UIView else {
             fatalError("Could not load nib named \(nibName)")
