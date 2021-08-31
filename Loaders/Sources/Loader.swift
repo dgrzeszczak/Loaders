@@ -14,21 +14,33 @@ public protocol ControllerLoader {
 
 public struct Loader<Controller: UIViewController> {
 
-    private let factory: () -> Controller
+    let factory: () -> Controller
+    public let key: String?
 
-    public init(factory: @escaping () -> Controller) {
-        self.factory = factory
+    public init(factory: @escaping () -> Controller, key: String? = nil, completion: ((Controller) -> Void)? = nil) {
+        self.factory = {
+            let controller: Controller = factory()
+            completion?(controller)
+            return controller
+        }
+        self.key = key
     }
 
-    public init(identifier: String?, storyboardName: String, bundle: Bundle) {
-        factory = {
-            let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
+    public init(identifier: String?, storyboardName: String, bundle: Bundle, completion: ((Controller) -> Void)? = nil) {
 
-            guard let identifier = identifier else {
-                return storyboard.instantiateInitialViewController() as! Controller
-            }
+        let key = "\(bundle.bundleURL.lastPathComponent.split(separator: ".")[0]).\(storyboardName)"
+        if let identifier = identifier {
+            self.key = "\(key).\(identifier)"
+        } else {
+            self.key = key
+        }
 
-            return storyboard.instantiateViewController(withIdentifier: identifier)  as! Controller
+        self.factory = {
+            let controller: Controller = StoryboardFactory.create(identifier: identifier,
+                                                                  storyboardName: storyboardName,
+                                                                  bundle: bundle)
+            completion?(controller)
+            return controller
         }
     }
 
@@ -38,13 +50,22 @@ public struct Loader<Controller: UIViewController> {
 
     public var any: ControllerLoader {
         if let zelf = self as? Loader<UIViewController> { return zelf }
-        return Loader<UIViewController>(factory: factory)
+        return Loader<UIViewController>(factory: factory, key: key)
     }
 }
 
-extension ControllerLoader where Self: Storyboard, Self: RawRepresentable, Self.RawValue == String {
-    public func load() -> UIViewController {
-        return loader().load()
+enum StoryboardFactory {
+    static func create<Controller>(identifier: String?,
+                                   storyboardName: String,
+                                   bundle: Bundle) -> Controller where Controller: UIViewController {
+
+        let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
+
+        guard let identifier = identifier else {
+            return storyboard.instantiateInitialViewController() as! Controller
+        }
+
+        return storyboard.instantiateViewController(withIdentifier: identifier)  as! Controller
     }
 }
 

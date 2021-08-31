@@ -20,15 +20,15 @@ public protocol HasInitialController {
 
 extension Storyboard {
 
-    public static func loader<Controller: UIViewController>(_ identifier: String = #function) -> Loader<Controller> {
+    public static func loader<Controller: UIViewController>(_ identifier: String = #function, completion: ((Controller) -> Void)? = nil) -> Loader<Controller> {
 
         let identifier = identifier.replacingOccurrences(of: "()", with: "")
         let storyboardName = String(describing: self)
 
         if identifier == "initialViewController" {
-            return Loader<Controller>(identifier: nil, storyboardName: storyboardName, bundle: bundle)
+            return Loader<Controller>(identifier: nil, storyboardName: storyboardName, bundle: bundle, completion: completion)
         } else {
-            return Loader<Controller>(identifier: identifier.capitalizingFirstLetter(), storyboardName: storyboardName, bundle: bundle)
+            return Loader<Controller>(identifier: identifier.capitalizingFirstLetter(), storyboardName: storyboardName, bundle: bundle, completion: completion)
         }
     }
 
@@ -42,13 +42,19 @@ extension Storyboard where Self: RawRepresentable, Self.RawValue == String {
         return Self.load(rawValue)
     }
 
-    public func loader<Controller: UIViewController>() -> Loader<Controller> {
-        return Self.loader(rawValue)
+    public func loader<Controller: UIViewController>(completion: ((Controller) -> Void)? = nil) -> Loader<Controller> {
+        return Self.loader(rawValue, completion: completion)
+    }
+}
+
+extension ControllerLoader where Self: Storyboard, Self: RawRepresentable, Self.RawValue == String {
+    public func load() -> UIViewController {
+        return loader().load()
     }
 }
 
 extension HasInitialController where Self: Storyboard {
 
-    static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
+    public static func instantiateInitialViewController() -> InitialControllerType { return initialViewController.load() }
     public static var initialViewController: Loader<InitialControllerType> { return loader() }
 }
