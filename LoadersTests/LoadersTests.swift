@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Loaders
+@testable import Loaders
 import SwiftUI
 
 //Todo
